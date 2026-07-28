@@ -1,17 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
 body{
-    margin-left: 20px;
+    background:#ECE5DD;
+    padding:40px;
 }
 
-.chat {
-    background-color: aliceblue;
-    padding: 20px;
-    border-radius: 16px;
-    display: inline-block;
+h2{
+    text-align:center;
+    color:#075E54;
+    font-size:2.8rem;
+    margin-bottom:10px;
 }
 
-.msg {
-    color: white;
-    background-color: dodgerblue;
-    padding: 5px 15px;
-    border-radius: 16px;
+body > p{
+    text-align:center;
+    color:#666;
+    font-size:17px;
+    margin-bottom:30px;
+}
+
+form[action="/chats/new"]{
+    display:flex;
+    justify-content:center;
+    margin-bottom:35px;
+}
+
+form[action="/chats/new"] button{
+    background:#25D366;
+    color:white;
+    border:none;
+    padding:14px 28px;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+form[action="/chats/new"] button:hover{
+    background:#128C7E;
+    transform:translateY(-3px);
+}
+
+.chat{
+    width:470px;
+    margin:30px auto;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    transition:.3s;
+}
+
+.chat:hover{
+    transform:translateY(-5px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
+}
+
+.chat > p:first-child{
+    background:#075E54;
+    color:white;
+    padding:15px 20px;
+    font-weight:600;
+    font-size:15px;
+}
+
+.chat > p:first-child i{
+    color:#D4F8E8;
+    font-style:normal;
+}
+
+.msg{
+    margin:20px;
+    background:#DCF8C6;
+    border-radius:18px;
+    padding:18px;
+    position:relative;
+}
+
+.msg::after{
+    content:"";
+    position:absolute;
+    left:-8px;
+    top:18px;
+    border-top:8px solid transparent;
+    border-bottom:8px solid transparent;
+    border-right:10px solid #DCF8C6;
+}
+
+.msg p{
+    color:#222;
+    font-size:15px;
+    line-height:1.7;
+}
+
+.msg form{
+    display:inline-block;
+    margin-top:15px;
+    margin-right:10px;
+}
+
+.msg button{
+    border:none;
+    cursor:pointer;
+    padding:10px 18px;
+    border-radius:8px;
+    color:white;
+    font-weight:600;
+    transition:.3s;
+}
+
+.msg form:first-of-type button{
+    background:#128C7E;
+}
+
+.msg form:first-of-type button:hover{
+    background:#075E54;
+}
+
+.delete{
+    background:#E53935;
+}
+
+.delete:hover{
+    background:#C62828;
+}
+
+.chat > p:nth-of-type(2){
+    margin:20px;
+    background:#F5F5F5;
+    padding:12px 15px;
+    border-left:5px solid #25D366;
+    border-radius:10px;
+    color:#444;
+    font-weight:500;
+}
+
+.chat > p:nth-of-type(2) i{
+    color:#075E54;
+    font-style:normal;
+    font-weight:600;
+}
+
+.chat hr{
+    border:none;
+    border-top:1px solid #ECECEC;
+    margin:0 20px;
+}
+
+.chat p:nth-last-child(2),
+.chat p:last-child{
+    color:#777;
+    font-size:13px;
+    text-align:right;
+    margin:10px 20px;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#BDBDBD;
+    border-radius:20px;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:15px;
+    }
+
+    .chat{
+        width:100%;
+    }
+
+    h2{
+        font-size:2rem;
+    }
+
+    form[action="/chats/new"] button{
+        width:100%;
+    }
+
+    .msg form{
+        display:block;
+        margin-bottom:10px;
+    }
+
+    .msg button{
+        width:100%;
+    }
+
 }
