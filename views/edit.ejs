@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>edit your chat</title>
+    <link rel="stylesheet" href="/edit.css">
 </head>
 <body>
-    <h2>Edit Your Chat : <%= chat._id %></h2>
-    <p>This chat was send from <%= chat.from %> to <%= chat.to %></p>
-    <form action="/chats/<%= chat._id %>?_method=PUT" method="post" >
-        <textarea name="message" rows="5" cols="10"></textarea>
-        <br>
-        <button>edit</button>
-    </form>
-
+    <div class="container">
+        <h2>Edit Your Chat : <%= chat._id %></h2>
+        <p>This chat was send from <%= chat.from %> to <%= chat.to %></p>
+        <form action="/chats/<%= chat._id %>?_method=PUT" method="post" >
+            <textarea name="message" rows="5" cols="10"></textarea>
+            <br>
+            <button>edit</button>
+        </form>
+    </div>
 </body>
 </html>
