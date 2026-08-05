@@ -1,35 +1,38 @@
 # 💬 Mini WhatsApp Clone
 
-A simple **CRUD (Create, Read, Update, Delete)** web application built using **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, and **EJS**. This project demonstrates the fundamentals of backend development by allowing users to create, view, edit, and delete chat messages through a clean WhatsApp-inspired interface.
+A simple **CRUD (Create, Read, Update, Delete)** web application built using **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, and **EJS**. This project demonstrates the fundamentals of backend development by allowing users to create, view, edit, update, and delete chat messages through a clean WhatsApp-inspired interface while implementing proper asynchronous and validation error handling.
 
 ---
 
 ## 🚀 Features
 
-- 📄 View all chats
-- ➕ Create a new chat
-- ✏️ Edit an existing chat
-- 🗑️ Delete a chat
-- 💾 Store chat data in MongoDB
-- 🎨 WhatsApp-inspired user interface
-- ⚡ RESTful routing
-- 🔄 PUT & DELETE requests using Method Override
-- 🖥️ Dynamic server-side rendering using EJS
-- ✔️ Delete confirmation using client-side JavaScript
+* 📄 View all chats
+* ➕ Create a new chat
+* ✏️ Edit an existing chat
+* 🗑️ Delete a chat
+* 💾 Store chat data in MongoDB
+* 🎨 WhatsApp-inspired user interface
+* ⚡ RESTful routing
+* 🔄 Support PUT & DELETE requests using Method Override
+* 🖥️ Dynamic server-side rendering using EJS
+* ✔️ Delete confirmation using client-side JavaScript
+* 🚨 Centralized asynchronous error handling using `wrapAsync()`
+* ⚠️ Custom error handling with `ExpressError`
+* ✅ Mongoose validation error handling middleware
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- EJS
-- HTML5
-- CSS3
-- JavaScript
-- Method Override
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* EJS
+* HTML5
+* CSS3
+* JavaScript
+* Method Override
 
 ---
 
@@ -55,6 +58,7 @@ Mini-WhatsApp-Clone/
 │   ├── new.ejs
 │   └── edit.ejs
 │
+├── ExpressError.js
 ├── index.js
 ├── package.json
 ├── package-lock.json
@@ -65,16 +69,17 @@ Mini-WhatsApp-Clone/
 
 ## 📂 Folder Overview
 
-| Folder/File | Description |
-|-------------|-------------|
-| `models/chat.js` | Mongoose schema for chat messages |
-| `views/` | EJS templates for rendering pages |
-| `public/style.css` | Styling for the main chat page |
-| `public/new.css` | Styling for the Create Chat page |
-| `public/edit.css` | Styling for the Edit Chat page |
-| `public/app.js` | Client-side JavaScript (Delete confirmation) |
-| `init/init.js` | Script to insert sample chat data |
-| `index.js` | Main Express server |
+| Folder/File        | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `models/chat.js`   | Mongoose schema for chat messages            |
+| `views/`           | EJS templates for rendering pages            |
+| `public/style.css` | Styling for the main chat page               |
+| `public/new.css`   | Styling for the Create Chat page             |
+| `public/edit.css`  | Styling for the Edit Chat page               |
+| `public/app.js`    | Client-side JavaScript (Delete confirmation) |
+| `init/init.js`     | Script to insert sample chat data            |
+| `ExpressError.js`  | Custom error class                           |
+| `index.js`         | Main Express server                          |
 
 ---
 
@@ -105,7 +110,7 @@ Make sure MongoDB is running locally.
 Default MongoDB connection:
 
 ```text
-mongodb://127.0.0.1:27017/whatsapp
+mongodb://127.0.0.1:27017/fakewhatsapp
 ```
 
 ### 5. Seed the Database (Optional)
@@ -136,15 +141,16 @@ http://localhost:3000/chats
 
 ## 📌 RESTful Routes
 
-| Method | Route | Description |
-|---------|-------|-------------|
-| GET | `/` | Home Route |
-| GET | `/chats` | Display all chats |
-| GET | `/chats/new` | Show Create Chat form |
-| POST | `/chats` | Create a new chat |
-| GET | `/chats/:id/edit` | Show Edit Chat form |
-| PUT | `/chats/:id` | Update a chat |
-| DELETE | `/chats/:id` | Delete a chat |
+| Method | Route             | Description           |
+| ------ | ----------------- | --------------------- |
+| GET    | `/`               | Home Route            |
+| GET    | `/chats`          | Display all chats     |
+| GET    | `/chats/new`      | Show Create Chat form |
+| POST   | `/chats`          | Create a new chat     |
+| GET    | `/chats/:id`      | Display a single chat |
+| GET    | `/chats/:id/edit` | Show Edit Chat form   |
+| PUT    | `/chats/:id`      | Update a chat         |
+| DELETE | `/chats/:id`      | Delete a chat         |
 
 ---
 
@@ -161,13 +167,43 @@ http://localhost:3000/chats
 
 ---
 
+## 🚨 Error Handling
+
+This project implements centralized error handling for cleaner and more maintainable code.
+
+### Async Error Wrapper
+
+A reusable `wrapAsync()` helper catches errors from asynchronous route handlers and forwards them to Express error-handling middleware.
+
+```javascript
+function wrapAsync(fn) {
+    return function(req, res, next) {
+        fn(req, res, next).catch(next);
+    };
+}
+```
+
+### Custom Error Class
+
+A custom `ExpressError` class is used for application-specific errors (such as **404 - Chat Not Found**).
+
+### Validation Error Handling
+
+Mongoose validation errors are intercepted and handled through custom middleware before reaching the global error handler.
+
+### Global Error Middleware
+
+All uncaught application errors are handled in a centralized Express error middleware for consistent responses.
+
+---
+
 ## 📦 Dependencies
 
-- express
-- mongoose
-- ejs
-- method-override
-- uuid
+* express
+* mongoose
+* ejs
+* method-override
+* uuid
 
 Install all dependencies using:
 
@@ -181,17 +217,23 @@ npm install
 
 This project helped me understand:
 
-- Express.js Routing
-- CRUD Operations
-- MongoDB Integration
-- Mongoose Models & Schemas
-- RESTful APIs
-- EJS Templating
-- Express Middleware
-- HTML Form Handling
-- Method Override
-- Dynamic Server-Side Rendering
-- Organizing an MVC-style Project
+* Express.js Routing
+* CRUD Operations
+* MongoDB Integration
+* Mongoose Models & Schemas
+* RESTful APIs
+* EJS Templating
+* Express Middleware
+* HTML Form Handling
+* Method Override
+* Dynamic Server-Side Rendering
+* Organizing an MVC-style Project
+* Async/Await
+* Promise Error Handling
+* Custom Middleware (`wrapAsync`)
+* Global Error Handling
+* Custom Error Classes
+* Mongoose Validation
 
 ---
 
@@ -221,16 +263,19 @@ screenshots/edit-chat.png
 
 ## 🚀 Future Improvements
 
-- 🔐 User Authentication
-- 💬 Real-time Chat using Socket.IO
-- 🔍 Search Messages
-- 📄 Pagination
-- 📱 Better Mobile Responsiveness
-- 😊 Emoji Support
-- 📤 Image & File Sharing
-- 👤 User Profiles
-- 🌙 Dark Mode
-- ⏰ Better Timestamp Formatting
+* 🔐 User Authentication
+* 💬 Real-time Chat using Socket.IO
+* 🔍 Search Messages
+* 📄 Pagination
+* 📱 Better Mobile Responsiveness
+* 😊 Emoji Support
+* 📤 Image & File Sharing
+* 👤 User Profiles
+* 🌙 Dark Mode
+* ⏰ Better Timestamp Formatting
+* 💬 Flash Messages
+* ⚙️ Environment Variables (`.env`)
+* 🛡️ Input Validation & Sanitization
 
 ---
 
