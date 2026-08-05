@@ -1,6 +1,6 @@
 # Mini WhatsApp Clone
 
-A simple CRUD (Create, Read, Update, Delete) application built using **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, and **EJS**. This project demonstrates the basics of backend development by allowing users to create, view, update, and delete chat messages.
+A simple CRUD (Create, Read, Update, Delete) application built using **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, and **EJS**. This project demonstrates backend development concepts by allowing users to create, view, update, and delete chat messages while implementing proper asynchronous and validation error handling.
 
 ---
 
@@ -10,10 +10,13 @@ A simple CRUD (Create, Read, Update, Delete) application built using **Node.js**
 * Create a new chat
 * Edit an existing chat
 * Delete a chat
-* Store data in MongoDB
+* Store chat data in MongoDB
 * Render dynamic pages using EJS
-* Use RESTful routes
+* RESTful routing
 * Support PUT and DELETE requests using Method Override
+* Centralized asynchronous error handling using a custom `wrapAsync()` utility
+* Custom error handling with `ExpressError`
+* Mongoose validation error handling middleware
 
 ---
 
@@ -25,8 +28,8 @@ A simple CRUD (Create, Read, Update, Delete) application built using **Node.js**
 * Mongoose
 * EJS
 * Method Override
-* HTML
-* CSS
+* HTML5
+* CSS3
 
 ---
 
@@ -46,6 +49,7 @@ Mini-Whatsapp/
 │   ├── new.ejs
 │   └── edit.ejs
 │
+├── ExpressError.js
 ├── index.js
 ├── package.json
 ├── package-lock.json
@@ -76,12 +80,12 @@ npm install
 
 ### 4. Start MongoDB
 
-Ensure MongoDB is running locally.
+Make sure MongoDB is running locally.
 
 The application connects to:
 
 ```text
-mongodb://127.0.0.1:27017/whatsapp
+mongodb://127.0.0.1:27017/fakewhatsapp
 ```
 
 ### 5. Start the server
@@ -96,7 +100,7 @@ or
 nodemon index.js
 ```
 
-The application will be available at:
+Visit the application at:
 
 ```text
 http://localhost:3000
@@ -104,17 +108,18 @@ http://localhost:3000
 
 ---
 
-## Routes
+## REST API Routes
 
-| Method | Route             | Description                        |
-| ------ | ----------------- | ---------------------------------- |
-| GET    | `/`               | Home route                         |
-| GET    | `/chats`          | Display all chats                  |
-| GET    | `/chats/new`      | Show the form to create a new chat |
-| POST   | `/chats`          | Create a new chat                  |
-| GET    | `/chats/:id/edit` | Show the edit form                 |
-| PUT    | `/chats/:id`      | Update an existing chat            |
-| DELETE | `/chats/:id`      | Delete a chat                      |
+| Method | Route             | Description                                                         |
+| ------ | ----------------- | ------------------------------------------------------------------- |
+| GET    | `/`               | Home route                                                          |
+| GET    | `/chats`          | Display all chats                                                   |
+| GET    | `/chats/new`      | Show form to create a new chat                                      |
+| POST   | `/chats`          | Create a new chat                                                   |
+| GET    | `/chats/:id`      | Display a single chat (includes custom error handling if not found) |
+| GET    | `/chats/:id/edit` | Show edit form                                                      |
+| PUT    | `/chats/:id`      | Update an existing chat                                             |
+| DELETE | `/chats/:id`      | Delete a chat                                                       |
 
 ---
 
@@ -131,6 +136,36 @@ http://localhost:3000
 
 ---
 
+## Error Handling
+
+This project implements centralized error handling for cleaner and more maintainable code.
+
+### Async Error Wrapper
+
+A reusable `wrapAsync()` helper is used to catch errors from asynchronous route handlers and forward them to Express's error middleware.
+
+```javascript
+function wrapAsync(fn) {
+    return function(req, res, next) {
+        fn(req, res, next).catch(next);
+    };
+}
+```
+
+### Custom Error Class
+
+A custom `ExpressError` class is used for generating application-specific errors such as **404 - Chat Not Found**.
+
+### Validation Error Handling
+
+Mongoose validation errors are intercepted and processed through custom middleware before reaching the global error handler.
+
+### Global Error Middleware
+
+All application errors are handled in one place using Express error-handling middleware, ensuring consistent error responses.
+
+---
+
 ## Dependencies
 
 * Express.js
@@ -138,7 +173,7 @@ http://localhost:3000
 * EJS
 * Method Override
 
-Install all dependencies using:
+Install dependencies with:
 
 ```bash
 npm install
@@ -148,36 +183,45 @@ npm install
 
 ## Learning Outcomes
 
-This project covers:
+This project helped reinforce concepts such as:
 
 * Express.js routing
 * CRUD operations
 * MongoDB integration with Mongoose
-* RESTful APIs
+* RESTful architecture
 * EJS templating
-* Middleware
-* Form handling
+* Express middleware
 * HTTP Method Override
-* Dynamic rendering with server-side templates
+* Form handling
+* Custom middleware creation
+* Async/await
+* Promise error handling
+* Centralized async error handling using `wrapAsync`
+* Custom error classes
+* Global error-handling middleware
+* Mongoose validation
 
 ---
 
 ## Future Improvements
 
-* User authentication
-* Real-time messaging using Socket.IO
-* Search functionality
+* User authentication and authorization
+* Real-time messaging with Socket.IO
+* Search and filter chats
 * Pagination
-* Responsive user interface
+* Responsive UI
 * Image and file sharing
-* Message timestamps with improved formatting
+* Better timestamp formatting
 * User profiles
+* Flash messages for CRUD operations
+* Environment variable support using `.env`
+* Input sanitization and security enhancements
 
 ---
 
 ## Author
 
-Vedant
+**Vedant**
 
 ---
 
